@@ -23,22 +23,26 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
     """Setup light platform."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
-    entities = []
-    if coordinator.supports_infrared_light():
-        entities.append(DahuaInfraredLight(coordinator, entry, "Infrared"))
+    entities = [AmcrestRingLight(coordinator, entry, "Ring Light"),
+                DahuaInfraredLight(coordinator, entry, "Infrared"),
+                DahuaIlluminator(coordinator, entry, "Illuminator"),
+                FloodLight(coordinator, entry, "Flood Light"),
+                DahuaSecurityLight(coordinator, entry, "Security Light")]
+    # if coordinator.supports_infrared_light():
+    #     entities.append(DahuaInfraredLight(coordinator, entry, "Infrared"))
 
-    if coordinator.supports_illuminator():
-        entities.append(DahuaIlluminator(coordinator, entry, "Illuminator"))
+    # if coordinator.supports_illuminator():
+    #     entities.append(DahuaIlluminator(coordinator, entry, "Illuminator"))
 
-    if coordinator.is_flood_light():
-        entities.append(FloodLight(coordinator, entry, "Flood Light"))
+    # if coordinator.is_flood_light():
+    #     entities.append(FloodLight(coordinator, entry, "Flood Light"))
 
-    if coordinator.supports_security_light() and not coordinator.is_amcrest_doorbell():
-        #  The Amcrest doorbell works a little different and is added in select.py
-        entities.append(DahuaSecurityLight(coordinator, entry, "Security Light"))
+    # if coordinator.supports_security_light() and not coordinator.is_amcrest_doorbell():
+    #     #  The Amcrest doorbell works a little different and is added in select.py
+    #     entities.append(DahuaSecurityLight(coordinator, entry, "Security Light"))
 
-    if coordinator.is_amcrest_doorbell():
-        entities.append(AmcrestRingLight(coordinator, entry, "Ring Light"))
+    # if coordinator.is_amcrest_doorbell():
+    #     entities.append(AmcrestRingLight(coordinator, entry, "Ring Light"))
 
     async_add_entities(entities)
 
