@@ -590,7 +590,7 @@ class DahuaClient:
         url = "/cgi-bin/coaxialControlIO.cgi?action=control&channel={channel}&info[0].Type={dahua_type}&info[0].IO={io}".format(
             channel=channel, dahua_type=dahua_type, io=io)
         _LOGGER.debug("Setting coaxial control state to %s: %s", io, url)
-        return await self.get(url)
+        return await self.get()
 
     async def async_set_disarming_linkage(self, channel: int, enabled: bool) -> dict:
         """

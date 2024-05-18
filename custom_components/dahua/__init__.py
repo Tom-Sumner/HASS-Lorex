@@ -310,6 +310,7 @@ class DahuaDataUpdateCoordinator(DataUpdateCoordinator):
             # Figure out which APIs we need to call and then fan out and gather the results
             coros = [
                 asyncio.ensure_future(self.client.async_get_config_motion_detection()),
+                asyncio.ensure_future(self.client.async_get_smart_motion_detection())
             ]
             if self.supports_infrared_light():
                 coros.append(
@@ -318,8 +319,8 @@ class DahuaDataUpdateCoordinator(DataUpdateCoordinator):
                 coros.append(asyncio.ensure_future(self.client.async_get_disarming_linkage()))
             if self._supports_coaxial_control:
                 coros.append(asyncio.ensure_future(self.client.async_get_coaxial_control_io_status()))
-            if self._supports_smart_motion_detection:
-                coros.append(asyncio.ensure_future(self.client.async_get_smart_motion_detection()))
+            # if self._supports_smart_motion_detection:
+            #     coros.append(asyncio.ensure_future(self.client.async_get_smart_motion_detection()))
             if self.supports_smart_motion_detection_amcrest():
                 coros.append(asyncio.ensure_future(self.client.async_get_video_analyse_rules_for_amcrest()))
             if self.is_amcrest_doorbell():

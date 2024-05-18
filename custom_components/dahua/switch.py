@@ -16,13 +16,12 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_devices):
     # I think most cameras have a motion sensor so we'll blindly add a switch for it
     devices = [
         DahuaMotionDetectionBinarySwitch(coordinator, entry),
-        DahuaSmartMotionDetectionBinarySwitch(coordinator, entry),
-        DahuaSirenBinarySwitch(coordinator, entry)
+        DahuaSmartMotionDetectionBinarySwitch(coordinator, entry)
     ]
 
     # But only some cams have a siren, very few do actually
-    # if coordinator.supports_siren():
-    #     devices.append(DahuaSirenBinarySwitch(coordinator, entry))
+    if coordinator.supports_siren():
+        devices.append(DahuaSirenBinarySwitch(coordinator, entry))
     # if coordinator.supports_smart_motion_detection() or coordinator.supports_smart_motion_detection_amcrest():
     #     devices.append(DahuaSmartMotionDetectionBinarySwitch(coordinator, entry))
 
@@ -125,18 +124,14 @@ class DahuaSmartMotionDetectionBinarySwitch(DahuaBaseEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Turn on SmartMotionDetect"""
-        if self._coordinator.supports_smart_motion_detection_amcrest():
-            await self._coordinator.client.async_set_ivs_rule(0, 0, True)
-        else:
-            await self._coordinator.client.async_enabled_smart_motion_detection(True)
+        await self._coordinator.client.async_set_ivs_rule(0, 0, True)
+        await self._coordinator.client.async_enabled_smart_motion_detection(True)
         await self._coordinator.async_refresh()
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Turn off SmartMotionDetect"""
-        if self._coordinator.supports_smart_motion_detection_amcrest():
-            await self._coordinator.client.async_set_ivs_rule(0, 0, False)
-        else:
-            await self._coordinator.client.async_enabled_smart_motion_detection(False)
+        await self._coordinator.client.async_set_ivs_rule(0, 0, False)
+        await self._coordinator.client.async_enabled_smart_motion_detection(False)
         await self._coordinator.async_refresh()
 
     @property
