@@ -1,14 +1,14 @@
 {
   "domain": "dahua",
-  "name": "Dahua",
+  "name": "Lorex",
   "iot_class": "local_polling",
-  "documentation": "https://github.com/rroller/dahua",
-  "issue_tracker": "https://github.com/rroller/dahua/issues",
+  "documentation": "https://github.com/Tom-Sumner/HASS-Lorex",
+  "issue_tracker": "https://github.com/Tom-Sumner/HASS-Lorex/issues",
   "dependencies": [],
   "version": "0.5.0",
   "config_flow": true,
   "codeowners": [
-    "@rroller"
+    "@Tom-Sumner"
   ],
   "requirements": []
 }
